@@ -1,4 +1,10 @@
-chess-game
-==========
+In folder 0 you will find jpg's for orientation 0=normal, 1=90 deg, 2=180 deg, 3=270 deg for SEMI_BOARD 0.
 
-Chess game using HTML5 canvas
+The origin must be incremented with this (2*SEMI_BRD_DIM , 2*SEMI_BRD_DIM/5) before placing the pieces because the board's top left corner is at that point
+
+Already have made png's for all pieces
+
+json does not have defined rows and columns. they are random
+
+can use CodeJS.txt for refernce code
+
