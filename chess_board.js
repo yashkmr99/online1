@@ -13,10 +13,10 @@ function drawSemiBoard(board_no) {
 
     var img = new Image();
 
-    var x = board_no%2;
-    var y = Math.floor(board_no/2);
+    var x = Math.floor(board_no/2);
+    var y = board_no%2;
     img.onload = function() {
-    ctx.drawImage(img,x*SEMI_BRD_DIM + 2*SEMI_BRD_DIM,y*SEMI_BRD_DIM + 2*SEMI_BRD_DIM/5,SEMI_BRD_DIM,SEMI_BRD_DIM);
+    ctx.drawImage(img,x*SEMI_BRD_DIM + 1.7*SEMI_BRD_DIM,y*SEMI_BRD_DIM + 3*SEMI_BRD_DIM/5,SEMI_BRD_DIM,SEMI_BRD_DIM);
     };
     if(SEMI_BRD_ORIENT[board_no] === 0){
         img.src="./" + board_no + "/board_0.jpg";
