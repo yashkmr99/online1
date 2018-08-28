@@ -5,12 +5,14 @@
         <title>HTML5 Canvas - Chess board- We are f****d</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+        <link rel="stylesheet" type="text/css" href="style.css" />
+
         <script src='chess_board.js'> </script>
     </head>
     <body onload='drawBoard(); onclickinit();'>
         <div>
             <div id="score_board" > WHITE:<p id="white_score">0</p>
-                                                        BLACK:<p id="black_score">0</p>
+            <br />                                            BLACK:<p id="black_score">0</p>
             </div> 
         	<!-- <img id="semiBoard" src="board.jpg" width="300px" height="300px"> -->
             <canvas id="chess" width="2000" height="2000" style="border:1px solid #d3d3d3;">       </canvas>

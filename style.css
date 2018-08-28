@@ -1,0 +1,9 @@
+p {
+	display: inline-block;
+}
+
+#score_board{
+	font-size: 150%;
+	text-align: center;	
+}
+

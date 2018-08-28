@@ -132,6 +132,12 @@ function drawPieces()
     drawTeamOfPieces(json.white,1);
 }
 
+function removeSelection() {
+    // drawBlock(selectedPiece.col, selectedPiece.row);
+
+    drawPieces();
+}
+
 ///////////////////////    DRAWING BOARD   //////////////////////
 
 function drawSemiBoard(board_no) {
@@ -148,6 +154,8 @@ function drawSemiBoard(board_no) {
 
     img.onload = function() {
     ctx.drawImage(img,x*SEMI_BRD_DIM + origin.x,y*SEMI_BRD_DIM + origin.y,SEMI_BRD_DIM,SEMI_BRD_DIM);
+    
+    drawPieces();
     };
     if(SEMI_BRD_ORIENT[board_no] === 0){
         img.src="./" + board_no + "/board_0.png";
@@ -167,13 +175,12 @@ function drawBoard(){
         drawSemiBoard(i);
     }
 
-    drawPieces();
-    drawPieces();
+    // drawPieces();
 
     //canvas.addEventListener('click',board_click,false);
 };
 
-/////////////////   CHESS MOVES   ////////////////////
+/////////////////   CHESS MOVES VALIDITY   ////////////////////
 
 function ifValidMove(prevbx,prevby,bx,by){
   var rowsDiff , colsDiff;
@@ -292,7 +299,7 @@ function ifValidMove(prevbx,prevby,bx,by){
   }
 }
 
-//////////////////////////////////////////
+//////////////////////////////////////////////////
 ////////////////////YASH TOPPER///////////////////
 
 var move = 0,
@@ -401,6 +408,8 @@ function onclickinit(){
     json.white[jsonindex].row = by;
     json.white[jsonindex].col = bx;
 
+    //checkIfCheck(jsonindex,1);
+
     drawBoard();
 
     clickodd = 0;
@@ -482,8 +491,11 @@ function onclickinit(){
       json.black[jsonindex].row = by;
       json.black[jsonindex].col = bx;
 
+      //if(checkIfCheck(jsonindex,0)===1) 
+
       clickodd = 0;
       move = 0;         //white ka move  aayga
+
       drawBoard();
           }}
 
@@ -529,131 +541,49 @@ function calcScore(i,isWhite){
   {
     var b_s = document.getElementById('black_score');
     b_s.innerHTML = SCORE[0];
-    console.log(SCORE[1]);   
+    console.log(SCORE[0]);   
   }
 }
 
+/////////////////////////  CHECK IF CHECK  //////////////////////////
 
-/////////////////////////////////////////
-/////////////////////////////////////////
-/////////////////////////////////////////
-/////////////////////////////////////////
-////////////////SUHAS THE TOPPER/////////////////////////
-
-
-function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
-
-    var curPiece = null,
-        iPieceCounter = 0,
-        pieceAtBlock = null;
-
-    for (iPieceCounter = 0; iPieceCounter < teamOfPieces.length; iPieceCounter++) {
-        curPiece = teamOfPieces[iPieceCounter];
-        if (curPiece.status === IN_PLAY &&
-                curPiece.col === clickedBlock.col &&
-                curPiece.row === clickedBlock.row)
-        {
-            pieceAtBlock = curPiece;
-            iPieceCounter = teamOfPieces.length;
-        }
+function checkIfCheck(jsonindex,isWhite)
+{
+  if(isWhite)
+  {
+    //check if valid move first
+    if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === 0)
+    {
+      //now check if same piece is se
+      //deselect
+      return 0;
+    }else if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === -1)
+    {
+      //invalid move
+      return -1;
     }
 
-    return pieceAtBlock;
-}
-
-function selectPiece(pieceAtBlock) {
-    // Draw outline
-    ctx.lineWidth = SELECT_LINE_WIDTH;
-    ctx.strokeStyle = HIGHLIGHT_COLOUR;
-    ctx.strokeRect((pieceAtBlock.col * BLOCK_SIZE) + SELECT_LINE_WIDTH + SEMI_BRD_DIM/2 + 3 ,
-        (pieceAtBlock.row * 3*BLOCK_SIZE/2) + SELECT_LINE_WIDTH + SEMI_BRD_DIM/4 + 3,
-        BLOCK_SIZE - (SELECT_LINE_WIDTH * 2) - 6,
-        BLOCK_SIZE - (SELECT_LINE_WIDTH * 2) - 6) ;
-
-    selectedPiece = pieceAtBlock;
-}
-
-function checkIfPieceClicked(clickedBlock) {
-    var team = BLACK ? json.black : json.white;
-    var pieceAtBlock = getPieceAtBlockForTeam(team,clickedBlock);
-
-    if (pieceAtBlock !== null) {
-        selectPiece(pieceAtBlock);
+    //Wall
+    return 1;
+  }
+  else
+  {
+    //check if valid move first
+    if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === 0)
+    {
+      //now check if same piece is se
+      //deselect
+      return 0;
+    }else if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === -1)
+    {
+      //invalid move
+      return -1;
     }
+
+    //Wall
+    return 1;
+  }
 }
-
-function removeSelection() {
-    // drawBlock(selectedPiece.col, selectedPiece.row);
-
-    drawPieces();
-}
-
-function processMove(clickedBlock) {
-    var team = BLACK ? json.black : json.white;
-    var pieceAtBlock = getPieceAtBlockForTeam(team,clickedBlock);
-
-    var possible = checkWall(clickedBlock);
-
-    if(clickedBlock.col != null && clickedBlock.row != null){
-         if (pieceAtBlock !== null) {
-            removeSelection(selectedPiece);
-            checkIfPieceClicked(clickedBlock);
-        }
-        else if( possible === 1 ){
-            movePiece(clickedBlock);
-        }
-        else{
-            alert("Wall is Blocking");
-            removeSelection(selectedPiece);
-        }
-    }
-    else{
-        removeSelection(selectedPiece);
-        selectedPiece = null;
-    }
-}
-
-function movePiece(clickedBlock) {
-    // Clear the block in the original position
-    // drawBlock(selectedPiece.col, selectedPiece.row);
-
-    var team = BLACK ? json.black : json.white ;
-
-    team[selectedPiece.piece].col = clickedBlock.col;
-    team[selectedPiece.piece].row = clickedBlock.row;
-    // Draw the piece in the new position
-    // drawPiece(selectedPiece, !clickedBlock);
-    drawGame();
-
-    selectedPiece = null;
-}
-
-// function board_click(ev) {
-//       var canvas = document.getElementById("chess");
-//       var ctx = canvas.getContext('2d');
-
-//     if (allow_execution === 1) {
-//        var x = ev.clientX - canvas.offsetLeft,
-//             y = ev.clientY - canvas.offsetTop,
-//             clickedBlock = screenToBlock(x, y);
-
-//         if (selectedPiece === null) {
-//             checkIfPieceClicked(clickedBlock);
-//         }
-//         else {
-//             processMove(clickedBlock);
-//         }
-//     }
-//     else{
-//         var team = BLACK ? json.black : json.white;
-//         setRemainingPositions(team);
-//         printThePositions(team);
-//         alert("gameover");
-//     }
-// }
-
-
-
 
 /////////////////////////   ROTATE BOARD FUNCTION  ///////////////////////
 var firstInBoard=[[0,0],[5,0],[0,5],[5,5],[0,10],[5,10]];
@@ -688,3 +618,7 @@ function rotate(id) {
 
       drawBoard();
 }
+
+/////////////////////////////////////////
+///////////SUHAS THE TOPPER//////////////
+/////////////////////////////////////////
