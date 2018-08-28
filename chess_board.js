@@ -175,7 +175,7 @@ function drawBoard(){
 /////////////////   CHESS MOVES   ////////////////////
 
 function ifValidMove(prevbx,prevby,bx,by){
-    var rows , cols;
+    var rowsDiff , colsDiff;
 
     rowsDiff = Math.abs(by - prevby);
     colsDiff = Math.abs(bx - prevbx);
@@ -186,6 +186,7 @@ function ifValidMove(prevbx,prevby,bx,by){
 
     if(jsonindex === 0){
         //ROOK MOVEMENT
+
           if(rowsDiff === 0)   // Belongs to same row
           {
             for(i=0;i<4;i++)
@@ -238,8 +239,10 @@ function ifValidMove(prevbx,prevby,bx,by){
                     }
                 }
             }
+            return 1;
           }
-          return 1;
+          else
+            return -1;
     }
     else if(jsonindex === 1){
         //BISHOP MOVEMENT
