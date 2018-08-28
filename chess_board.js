@@ -1,4 +1,4 @@
-var SEMI_BRD_ORIENT = [0,0,0,0,0,0] //0-normal, 1- 90 deg rot, 2- 180 deg rot, 3- 270 deg rot 
+var SEMI_BRD_ORIENT = [0,0,0,0,0,0] //0-normal, 1- 90 deg rot, 2- 180 deg rot, 3- 270 deg rot
 //SEMI_BRD (semi boards) are  0  1
 //              2  3
 //              4  5
@@ -7,27 +7,27 @@ var SEMI_BRD_DIM = 300,
     BLOCK_SIZE = SEMI_BRD_DIM/5,
     PIECE_SIZE = 100 ;
 
-var origin = 
+var origin =
 {
     "x": 1.7*SEMI_BRD_DIM,
     "y": 3*SEMI_BRD_DIM/5
-};  
+};
 
 ///////////////////////////////  POSITION AND STATE OF PIECES  /////////////////////////////////
 
-var json = 
+var json =
 {
-    "white": 
+    "white":
     [
-        {   
-            "imgPos": 0, 
+        {
+            "imgPos": 0,
             "piece": "ROOK",
             "row": 0,
             "col": 0,
             "in_play": true
         },
         {
-            "imgPos": 2,    
+            "imgPos": 2,
             "piece": "BISHOP",
             "row": 0,
             "col": 2,
@@ -39,7 +39,7 @@ var json =
             "row": 0,
             "col": 3,
             "in_play": true
-        },  
+        },
         {
             "imgPos": 1,
             "piece": "KNIGHT",
@@ -48,7 +48,7 @@ var json =
             "in_play": true
         }
     ],
-    "black": 
+    "black":
     [
         {
             "imgPos": 0,
@@ -70,7 +70,7 @@ var json =
             "row": 5,
             "col": 3,
             "in_play": true
-        },  
+        },
         {
             "imgPos": 1,
             "piece": "KNIGHT",
@@ -78,7 +78,7 @@ var json =
             "col": 11,
             "in_play": true
         }
-    ]       
+    ]
 };
 
 //////////////////////  Drawing pieces  ///////////////////////////////
@@ -119,11 +119,11 @@ function drawTeamOfPieces(teamOfPieces,bBlackTeam)
 {
     var iPieceCounter;
  
-    // Loop through each piece and draw it on the canvas    
-    for (iPieceCounter = 0; iPieceCounter < teamOfPieces.length; iPieceCounter++) 
-    {   
+    // Loop through each piece and draw it on the canvas   
+    for (iPieceCounter = 0; iPieceCounter < teamOfPieces.length; iPieceCounter++)
+    {  
         drawPiece(teamOfPieces[iPieceCounter],bBlackTeam);
-    }   
+    }  
 }
 
 function drawPieces()
@@ -140,7 +140,7 @@ function drawSemiBoard(board_no) {
 
     ctx.fillStyle = "#caf2ec";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     var img = new Image();
 
     var x = Math.floor(board_no/2);
@@ -162,11 +162,11 @@ function drawSemiBoard(board_no) {
 
 function drawBoard(){
     var canvas = document.getElementById("canvas");
-    
+
     for (var i = 0; i < 6; i++) {
         drawSemiBoard(i);
     }
-    
+
     drawPieces();
 
     //canvas.addEventListener('click',board_click,false);
@@ -244,22 +244,22 @@ function ifValidMove(prevbx,prevby,bx,by){
         }
         else return 1;
       }  
-    
+    }
     else if(jsonindex === 1){
         //BISHOP MOVEMENT
         if(rowsDiff === colsDiff)
         {
-            for(i=0;i<4;i++)    
+            for(i=0;i<4;i++)
             {
                 if(i === 1) continue;
-                if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff 
-                    && (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.white[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff ) 
+                if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff
+                    && (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.white[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
                 {
                  alert("can't move there");
                  return -1;
                 }
-                if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff 
-                    && (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.black[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )  
+                if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff
+                    && (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.black[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
                 {
                  alert("can't move there");
                  return -1;
@@ -273,7 +273,7 @@ function ifValidMove(prevbx,prevby,bx,by){
         //KING MOVEMENT
         if(rowsDiff*colsDiff <= 1)
             return 1;
-        else return -1;        
+        else return -1;
     }
     else if(jsonindex === 3){
         //KNIGHT MOVEMENT
@@ -295,7 +295,7 @@ var jsonindex = null;
 
 function onclickinit(){
   $("#chess").on("click", function (event){
- 
+
   var x = event.clientX;
   var y = event.clientY;
 
@@ -343,24 +343,24 @@ function onclickinit(){
       if(ifValidMove(prevbx,prevby,bx,by) === 0)
       {
         //now check if his own piece
-        //deselect 
-        removeSelection();  
-        clickodd = 0;  
+        //deselect
+        removeSelection();
+        clickodd = 0;
         return 0;
       }else if(ifValidMove(prevbx,prevby,bx,by) === -1)
       {
         //invalid move
         return -1;
-      }  
+      }
 
       //now check if wall
- 
-    //  var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
-      
-  
-      
 
-      
+    //  var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
+
+
+
+
+
 
     //now check if his own piece
 
@@ -388,7 +388,7 @@ function onclickinit(){
       //finally a valid move no wall and no other piece there
     json.white[jsonindex].row = by;
     json.white[jsonindex].col = bx;
-   
+
     drawBoard();
 
     clickodd = 0;
@@ -425,10 +425,10 @@ function onclickinit(){
       if(ifValidMove(prevbx,prevby,bx,by) === 0)
       {
         //now check if his own piece
-        //deselect 
-        removeSelection();  
+        //deselect
+        removeSelection();
         clickodd = 0;
-        return 0;  
+        return 0;
       }else if(ifValidMove(prevbx,prevby,bx,by) === -1)
       {
         //invalid move
@@ -436,10 +436,10 @@ function onclickinit(){
       }
 
       //now check if wall
- 
+
       //var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
-      
-      
+
+
     //now check if his own piece
 
     for(i=0;i<4;i++)
@@ -467,12 +467,12 @@ function onclickinit(){
 
       json.black[jsonindex].row = by;
       json.black[jsonindex].col = bx;
-       
+
       clickodd = 0;
-      move = 0;         //white ka move  aayga 
+      move = 0;         //white ka move  aayga
       drawBoard();
           }}
-   
+
 
 }  );
 
@@ -496,7 +496,7 @@ function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
         curPiece = teamOfPieces[iPieceCounter];
         if (curPiece.status === IN_PLAY &&
                 curPiece.col === clickedBlock.col &&
-                curPiece.row === clickedBlock.row) 
+                curPiece.row === clickedBlock.row)
         {
             pieceAtBlock = curPiece;
             iPieceCounter = teamOfPieces.length;
@@ -519,7 +519,7 @@ function selectPiece(pieceAtBlock) {
 }
 
 function checkIfPieceClicked(clickedBlock) {
-    var team = BLACK ? json.black : json.white;  
+    var team = BLACK ? json.black : json.white;
     var pieceAtBlock = getPieceAtBlockForTeam(team,clickedBlock);
 
     if (pieceAtBlock !== null) {
@@ -534,16 +534,16 @@ function removeSelection() {
 }
 
 function processMove(clickedBlock) {
-    var team = BLACK ? json.black : json.white; 
+    var team = BLACK ? json.black : json.white;
     var pieceAtBlock = getPieceAtBlockForTeam(team,clickedBlock);
-    
+
     var possible = checkWall(clickedBlock);
 
-    if(clickedBlock.col != null && clickedBlock.row != null){ 
+    if(clickedBlock.col != null && clickedBlock.row != null){
          if (pieceAtBlock !== null) {
             removeSelection(selectedPiece);
             checkIfPieceClicked(clickedBlock);
-        } 
+        }
         else if( possible === 1 ){
             movePiece(clickedBlock);
         }
@@ -582,7 +582,7 @@ function movePiece(clickedBlock) {
 //             y = ev.clientY - canvas.offsetTop,
 //             clickedBlock = screenToBlock(x, y);
 
-//         if (selectedPiece === null) {   
+//         if (selectedPiece === null) {
 //             checkIfPieceClicked(clickedBlock);
 //         }
 //         else {
@@ -601,7 +601,7 @@ function movePiece(clickedBlock) {
 
 
 /////////////////////////   ROTATE BOARD FUNCTION  ///////////////////////
-var firstInBoard=[[0,0],[0,5],[0,10],[5,0],[5,5],[5,10]];
+var firstInBoard=[[0,0],[5,0],[0,5],[5,5],[0,10],[5,10]];
 
 function rotate(id) {
       SEMI_BRD_ORIENT[id]=(SEMI_BRD_ORIENT[id]+1)%4;
@@ -628,7 +628,7 @@ function rotate(id) {
               json.black[i].row=firstInBoard[id][0] + ((json.black[i].col)%5);
               json.black[i].col=firstInBoard[id][1] + ( 4 - old_row );
           }
-          console.log(json.black[i].col,json.black[i].row);
+          console.log(json.black[i].row,json.black[i].col);
       }
 
       drawBoard();
