@@ -593,3 +593,39 @@ function movePiece(clickedBlock) {
 //     }
 // }
 
+
+
+
+/////////////////////////   ROTATE BOARD FUNCTION  ///////////////////////
+var firstInBoard=[[0,0],[0,5],[0,10],[5,0],[5,5],[5,10]];
+
+function rotate(id) {
+      SEMI_BRD_ORIENT[id]=(SEMI_BRD_ORIENT[id]+1)%4;
+      console.log(SEMI_BRD_ORIENT);
+
+      for(i=0;i<4;i++)
+      {
+          if(json.white[i].row>=firstInBoard[id][0] && json.white[i].row<firstInBoard[id][0]+5 && json.white[i].col>=firstInBoard[id][1]  && json.white[i].col<firstInBoard[id][1]+5)
+          {
+              var old_row=json.white[i].row%5;
+              // console.log(old_row);
+              json.white[i].row=firstInBoard[id][0] + ((json.white[i].col)%5);
+              json.white[i].col=firstInBoard[id][1] + ( 4 - old_row);
+
+          }
+          console.log(json.white[i].row,json.white[i].col);
+      }
+      for(i=0;i<4;i++)
+      {
+
+          if(json.black[i].row>=firstInBoard[id][0] && json.black[i].row<firstInBoard[id][0]+5 && json.black[i].col>=firstInBoard[id][1]  && json.black[i].col<firstInBoard[id][1]+5)
+          {
+              var old_row=json.black[i].row%5;
+              json.black[i].row=firstInBoard[id][0] + ((json.black[i].col)%5);
+              json.black[i].col=firstInBoard[id][1] + ( 4 - old_row );
+          }
+          console.log(json.black[i].col,json.black[i].row);
+      }
+
+      drawBoard();
+}
