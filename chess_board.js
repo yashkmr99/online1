@@ -9,8 +9,8 @@ var SEMI_BRD_DIM = 300,
 
 var origin =
 {
-    "x": 1.7*SEMI_BRD_DIM,
-    "y": 3*SEMI_BRD_DIM/5
+    "x": 1*SEMI_BRD_DIM,
+    "y": SEMI_BRD_DIM/3
 };
 
 ///////////////////////////////  POSITION AND STATE OF PIECES  /////////////////////////////////
@@ -147,7 +147,7 @@ function drawSemiBoard(board_no) {
     var y = board_no%2;
 
     img.onload = function() {
-    ctx.drawImage(img,x*SEMI_BRD_DIM + 1.7*SEMI_BRD_DIM,y*SEMI_BRD_DIM + 3*SEMI_BRD_DIM/5,SEMI_BRD_DIM,SEMI_BRD_DIM);
+    ctx.drawImage(img,x*SEMI_BRD_DIM + origin.x,y*SEMI_BRD_DIM + origin.y,SEMI_BRD_DIM,SEMI_BRD_DIM);
     };
     if(SEMI_BRD_ORIENT[board_no] === 0){
         img.src="./" + board_no + "/board_0.png";
@@ -167,6 +167,7 @@ function drawBoard(){
         drawSemiBoard(i);
     }
 
+    drawPieces();
     drawPieces();
 
     //canvas.addEventListener('click',board_click,false);
@@ -261,13 +262,13 @@ function ifValidMove(prevbx,prevby,bx,by){
       {
         if(i === 1) continue;
         if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff
-            && (json.white[i].col - prevbx) * (bx - json.white[i].col) < 0 && (json.white[i].row - prevby) * (by - json.white[i].row) < 0 )
+            && (json.white[i].col - prevbx) * (bx - json.white[i].col) > 0 && (json.white[i].row - prevby) * (by - json.white[i].row) > 0 )
         {
          alert("can't move there");
          return -1;
         }
         if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff
-            && (json.black[i].col - prevbx) * (bx - json.black[i].col) < 0 && (json.black[i].row - prevby) *  (by - json.black[i].row) < 0 )
+            && (json.black[i].col - prevbx) * (bx - json.black[i].col) > 0 && (json.black[i].row - prevby) * (by - json.black[i].row) > 0 )
         {
          alert("can't move there");
          return -1;
@@ -279,7 +280,7 @@ function ifValidMove(prevbx,prevby,bx,by){
   }
   else if (jsonindex === 2){
     //KING MOVEMENT
-    if(rowsDiff*colsDiff <= 1)
+    if(rowsDiff*colsDiff <= 1 && Math.abs(rowsDiff- colsDiff) <=1 )
       return 1;
     else return -1;
   }
@@ -292,7 +293,7 @@ function ifValidMove(prevbx,prevby,bx,by){
 }
 
 //////////////////////////////////////////
-///////////////////////////////////////
+////////////////////YASH TOPPER///////////////////
 
 var move = 0,
     clickodd = 0;
@@ -389,6 +390,9 @@ function onclickinit(){
         {
           json.black[i].row = -1;
           json.black[i].col = -1;     //That piece captured
+          
+          calcScore(i,0);
+
           break;
         }
     }
@@ -467,6 +471,8 @@ function onclickinit(){
         {
           json.white[i].row = -1;
           json.white[i].col = -1;     //That piece captured
+
+          calcScore(i,1);
           break;
         }
       }
@@ -486,6 +492,47 @@ function onclickinit(){
 
 
 }
+
+//////////////////////   SCORE BOARD  //////////////////
+var SCORE = [0,0];
+//  SCORE[0] -BLACK ; SCORE[1] -WHITE
+
+function calcScore(i,isWhite){
+// King : 70 ; Knight : 40 ; Bishop : 35 ; Rook : 35. 
+  if(i === 0)
+  {
+    //ROOK
+    SCORE[isWhite] += 35;
+  }
+  else if(i === 1)
+  {
+    //BISHOP
+    SCORE[isWhite] += 35;
+  }
+  else if(i === 2)
+  {
+    //KING
+    SCORE[isWhite] += 70;  
+  }
+  else if(i === 3)
+  {
+    //KNIGHT
+    SCORE[isWhite] += 40;  
+  }
+  if(isWhite)
+  {
+    var w_s = document.getElementById('white_score');
+    w_s.innerHTML = SCORE[1];
+    console.log(SCORE[1]);
+  }
+  else 
+  {
+    var b_s = document.getElementById('black_score');
+    b_s.innerHTML = SCORE[0];
+    console.log(SCORE[1]);   
+  }
+}
+
 
 /////////////////////////////////////////
 /////////////////////////////////////////
