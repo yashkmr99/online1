@@ -261,13 +261,13 @@ function ifValidMove(prevbx,prevby,bx,by){
       {
         if(i === 1) continue;
         if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff
-            && (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.white[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
+            && (json.white[i].col - prevbx) * (bx - json.white[i].col) < 0 && (json.white[i].row - prevby) * (by - json.white[i].row) < 0 )
         {
          alert("can't move there");
          return -1;
         }
         if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff
-            && (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.black[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
+            && (json.black[i].col - prevbx) * (bx - json.black[i].col) < 0 && (json.black[i].row - prevby) *  (by - json.black[i].row) < 0 )
         {
          alert("can't move there");
          return -1;
@@ -491,7 +491,7 @@ function onclickinit(){
 /////////////////////////////////////////
 /////////////////////////////////////////
 /////////////////////////////////////////
-////////////////SUHAS/////////////////////////
+////////////////SUHAS THE TOPPER/////////////////////////
 
 
 function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
