@@ -185,102 +185,101 @@ function ifValidMove(prevbx,prevby,bx,by){
   }   
 
   if(jsonindex === 0){
-      //ROOK MOVEMENT
-        if(rowsDiff === 0)   // Belongs to same row
-        {
-          for(i=0;i<4;i++)    
+    //ROOK MOVEMENT
+    if(rowsDiff === 0)   // Belongs to same row
+    {
+      for(i=0;i<4;i++)    
+      {
+        if(json.white[i].row === by) 
+          if(bx > prevbx &&  (json.white[i].col>prevbx && json.white[i].col<bx)) 
           {
-              if(json.white[i].row === by) 
-                  if(bx > prevbx &&  (json.white[i].col>prevbx && json.white[i].col<bx)) 
-                  {
-                   alert("can't move there");
-                   return -1;
-                  }
-                  else if(bx < prevbx &&  (json.white[i].col<prevbx && json.white[i].col>bx))
-                  {
-                    return -1;
-                  }
-              if(json.black[i].row === by)
-                  if(bx > prevbx &&  (json.black[i].col>prevbx && json.black[i].col<bx)) 
-                  {
-                   alert("can't move there");
-                   return -1;
-                  }
-                  else if(bx < prevbx &&  (json.black[i].col<prevbx && json.black[i].col>bx))
-                  {
-                      return -1;
-                  }
+            alert("can't move there");
+            return -1;
           }
-        }   
-        else if(colsDiff === 0)   // Belongs to same column
-        {
-          for(i=0;i<4;i++)    
+          else if(bx < prevbx &&  (json.white[i].col<prevbx && json.white[i].col>bx))
           {
-              if(json.white[i].col === bx)
-                  if(by > prevby &&  (json.white[i].row>prevby && json.white[i].row<by)) 
-                  {
-                    alert("can't move there");
-                   return -1;
-                  }
-                  else if(by < prevby &&  (json.white[i].row<prevby && json.white[i].row>by))
-                  {
-                    alert("can't move there");
-                      return -1;
-                  }
-              if(json.black[i].col === bx)
-              {
-                  if(by > prevby &&  (json.black[i].row>prevby && json.black[i].row<by)) 
-                  {
-                    alert("can't move there");
-                   return -1;
-                  }
-                  else if(by < prevby &&  (json.black[i].row<prevby && json.black[i].row>by))
-                  {
-                    alert("can't move there");
-                      return -1;
-                  }
-              }
+            return -1;
+          }
+        if(json.black[i].row === by)
+          if(bx > prevbx &&  (json.black[i].col>prevbx && json.black[i].col<bx)) 
+          {
+            alert("can't move there");
+            return -1;
+          }
+          else if(bx < prevbx &&  (json.black[i].col<prevbx && json.black[i].col>bx))
+          {
+            return -1;
+          }
+      }
+    }   
+    else if(colsDiff === 0)   // Belongs to same column
+    {
+      for(i=0;i<4;i++)    
+      {
+        if(json.white[i].col === bx)
+          if(by > prevby &&  (json.white[i].row>prevby && json.white[i].row<by)) 
+          {
+            alert("can't move there");
+            return -1;
+          }
+          else if(by < prevby &&  (json.white[i].row<prevby && json.white[i].row>by))
+          {
+            alert("can't move there");
+            return -1;
+          }
+        if(json.black[i].col === bx)
+        {
+          if(by > prevby &&  (json.black[i].row>prevby && json.black[i].row<by)) 
+          {
+            alert("can't move there");
+            return -1;
+          }
+          else if(by < prevby &&  (json.black[i].row<prevby && json.black[i].row>by))
+          {
+            alert("can't move there");
+            return -1;
           }
         }
-        else return 1;
-      }  
+      }
     }
-    else if(jsonindex === 1){
-        //BISHOP MOVEMENT
-        if(rowsDiff === colsDiff)
+    else return 1;
+  }  
+  else if(jsonindex === 1){
+    //BISHOP MOVEMENT
+    if(rowsDiff === colsDiff)
+    {
+      for(i=0;i<4;i++)
+      {
+        if(i === 1) continue;
+        if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff
+            && (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.white[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
         {
-            for(i=0;i<4;i++)
-            {
-                if(i === 1) continue;
-                if( (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.white[i].row - prevby) *  (by - prevby)/rowsDiff
-                    && (json.white[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.white[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
-                {
-                 alert("can't move there");
-                 return -1;
-                }
-                if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff
-                    && (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.black[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
-                {
-                 alert("can't move there");
-                 return -1;
-                }
-            }
-            return 1;
+         alert("can't move there");
+         return -1;
         }
-        else return -1;
+        if( (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff === (json.black[i].row - prevby) *  (by - prevby)/rowsDiff
+            && (json.black[i].col - prevbx) * (bx - prevbx)/colsDiff < colsDiff && (json.black[i].row - prevby) *  (by - prevby)/rowsDiff < rowsDiff )
+        {
+         alert("can't move there");
+         return -1;
+        }
+      }
+      return 1;
     }
-    else if (jsonindex === 2){
-        //KING MOVEMENT
-        if(rowsDiff*colsDiff <= 1)
-            return 1;
-        else return -1;
-    }
-    else if(jsonindex === 3){
-        //KNIGHT MOVEMENT
-        if((rowsDiff === 2 && colsDiff ===1)||(rowsDiff === 1 && colsDiff === 2))
-            return 1;
-        else return -1;
-    }
+    else return -1;
+  }
+  else if (jsonindex === 2){
+    //KING MOVEMENT
+    if(rowsDiff*colsDiff <= 1)
+      return 1;
+    else return -1;
+  }
+  else if(jsonindex === 3){
+    //KNIGHT MOVEMENT
+    if((rowsDiff === 2 && colsDiff ===1)||(rowsDiff === 1 && colsDiff === 2))
+      return 1;
+    else return -1;
+  }
 }
 
 //////////////////////////////////////////
@@ -342,7 +341,7 @@ function onclickinit(){
       //check if valid move first
       if(ifValidMove(prevbx,prevby,bx,by) === 0)
       {
-        //now check if his own piece
+        //now check if same piece is selected again
         //deselect
         removeSelection();
         clickodd = 0;
