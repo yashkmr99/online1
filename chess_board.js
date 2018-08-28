@@ -186,63 +186,72 @@ function ifValidMove(prevbx,prevby,bx,by){
 
   if(jsonindex === 0){
     //ROOK MOVEMENT
-    if(rowsDiff === 0)   // Belongs to same row
-    {
-      for(i=0;i<4;i++)    
+
+    if(!(rowsDiff === 0 ) != !(colsDiff === 0))
+    { 
+      if(rowsDiff === 0)   // Belongs to same row
       {
-        if(json.white[i].row === by) 
-          if(bx > prevbx &&  (json.white[i].col>prevbx && json.white[i].col<bx)) 
-          {
-            alert("can't move there");
-            return -1;
-          }
-          else if(bx < prevbx &&  (json.white[i].col<prevbx && json.white[i].col>bx))
-          {
-            return -1;
-          }
-        if(json.black[i].row === by)
-          if(bx > prevbx &&  (json.black[i].col>prevbx && json.black[i].col<bx)) 
-          {
-            alert("can't move there");
-            return -1;
-          }
-          else if(bx < prevbx &&  (json.black[i].col<prevbx && json.black[i].col>bx))
-          {
-            return -1;
-          }
-      }
-    }   
-    else if(colsDiff === 0)   // Belongs to same column
-    {
-      for(i=0;i<4;i++)    
-      {
-        if(json.white[i].col === bx)
-          if(by > prevby &&  (json.white[i].row>prevby && json.white[i].row<by)) 
-          {
-            alert("can't move there");
-            return -1;
-          }
-          else if(by < prevby &&  (json.white[i].row<prevby && json.white[i].row>by))
-          {
-            alert("can't move there");
-            return -1;
-          }
-        if(json.black[i].col === bx)
+        for(i=0;i<4;i++)    
         {
-          if(by > prevby &&  (json.black[i].row>prevby && json.black[i].row<by)) 
+          if(json.white[i].row === by) 
+            if(bx > prevbx &&  (json.white[i].col>prevbx && json.white[i].col<bx)) 
+            {
+              alert("can't move there");
+              return -1;
+            }
+            else if(bx < prevbx &&  (json.white[i].col<prevbx && json.white[i].col>bx))
+            {
+              return -1;
+            }
+          if(json.black[i].row === by)
+            if(bx > prevbx &&  (json.black[i].col>prevbx && json.black[i].col<bx)) 
+            {
+              alert("can't move there");
+              return -1;
+            }
+            else if(bx < prevbx &&  (json.black[i].col<prevbx && json.black[i].col>bx))
+            {
+              return -1;
+            }
+        }
+      }   
+      else if(colsDiff === 0)   // Belongs to same column
+      {
+        for(i=0;i<4;i++)    
+        {
+          if(json.white[i].col === bx)
+            if(by > prevby &&  (json.white[i].row>prevby && json.white[i].row<by)) 
+            {
+              alert("can't move there");
+              return -1;
+            }
+            else if(by < prevby &&  (json.white[i].row<prevby && json.white[i].row>by))
+            {
+              alert("can't move there");
+              return -1;
+            }
+          if(json.black[i].col === bx)
           {
-            alert("can't move there");
-            return -1;
-          }
-          else if(by < prevby &&  (json.black[i].row<prevby && json.black[i].row>by))
-          {
-            alert("can't move there");
-            return -1;
+            if(by > prevby &&  (json.black[i].row>prevby && json.black[i].row<by)) 
+            {
+              alert("can't move there");
+              return -1;
+            }
+            else if(by < prevby &&  (json.black[i].row<prevby && json.black[i].row>by))
+            {
+              alert("can't move there");
+              return -1;
+            }
           }
         }
       }
-    }
-    else return 1;
+      else return 1;
+    }   
+    else
+    {
+      alert("go fuck yourself");
+      return -1;
+    } 
   }  
   else if(jsonindex === 1){
     //BISHOP MOVEMENT
@@ -341,7 +350,7 @@ function onclickinit(){
       //check if valid move first
       if(ifValidMove(prevbx,prevby,bx,by) === 0)
       {
-        //now check if same piece is selected again
+        //now check if same piece is se
         //deselect
         removeSelection();
         clickodd = 0;
