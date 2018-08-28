@@ -398,7 +398,7 @@ function onclickinit(){
           json.black[i].row = -1;
           json.black[i].col = -1;     //That piece captured
           
-          calcScore(i,0);
+          calcScore(i,1);
 
           break;
         }
@@ -481,7 +481,7 @@ function onclickinit(){
           json.white[i].row = -1;
           json.white[i].col = -1;     //That piece captured
 
-          calcScore(i,1);
+          calcScore(i,0);
           break;
         }
       }
@@ -506,6 +506,7 @@ function onclickinit(){
 }
 
 //////////////////////   SCORE BOARD  //////////////////
+
 var SCORE = [0,0];
 //  SCORE[0] -BLACK ; SCORE[1] -WHITE
 
@@ -586,6 +587,7 @@ function checkIfCheck(jsonindex,isWhite)
 }
 
 /////////////////////////   ROTATE BOARD FUNCTION  ///////////////////////
+
 var firstInBoard=[[0,0],[5,0],[0,5],[5,5],[0,10],[5,10]];
 
 function rotate(id) {
