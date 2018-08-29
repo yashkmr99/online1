@@ -525,22 +525,22 @@ function calcScore(i,isWhite){
   if(i === 0)
   {
     //ROOK
-    SCORE[isWhite] += 35;
+    SCORE[isWhite] += 135;
   }
   else if(i === 1)
   {
     //BISHOP
-    SCORE[isWhite] += 35;
+    SCORE[isWhite] += 135;
   }
   else if(i === 2)
   {
     //KING
-    SCORE[isWhite] += 70;  
+    SCORE[isWhite] += 170;  
   }
   else if(i === 3)
   {
     //KNIGHT
-    SCORE[isWhite] += 40;  
+    SCORE[isWhite] += 140;  
   }
   if(isWhite)
   {
@@ -1351,6 +1351,45 @@ function endgame(piece){
   var myWindow = window.open("end.html", "_self");
   myWindow.document.write(" The Winner is " + winner);
 }
+
+////////////Timer////////////////////////
+
+var TIME = 60 ;
+var seconds_left_Black = TIME;
+var seconds_left_White = TIME;
+
+function BlackTimer() {
+  
+  console.log("black");
+  var interval = setInterval(function() {
+    if (move == 1) {
+      WhiteTimer();
+      clearInterval(interval);
+    }
+    document.getElementById('BlackTime').innerHTML = --seconds_left_Black;
+    if (seconds_left_Black <= 0)
+    {
+       document.getElementById('BlackTime').innerHTML = " 0 ";
+       clearInterval(interval);
+    }
+}, 1000*2);
+}
+
+function WhiteTimer() {  
+  console.log("white");
+  var interval = setInterval(function() {
+    if (move == 0) {
+      BlackTimer();
+      clearInterval(interval);
+    }
+    document.getElementById('WhiteTime').innerHTML = --seconds_left_White;
+    if (seconds_left_White <= 0 )
+    {
+       document.getElementById('WhiteTime').innerHTML = " 0 ";
+       clearInterval(interval);
+    }
+}, 1000*2);
+} 
 
 /////////////////////////////////////////
 ///////////SUHAS THE TOPPER//////////////

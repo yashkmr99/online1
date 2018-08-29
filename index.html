@@ -10,7 +10,7 @@
         <script src='chess_board.js'> </script>
         <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     </head>
-    <body onload='drawBoard(); onclickinit();'>
+    <body onload='drawBoard(); onclickinit(); BlackTimer() ; WhiteTimer()'>
         <div>
             <div class="heading">   
                 <h1>The Name and Tag Line Comes Here</h1>
@@ -29,7 +29,9 @@
             <div id="log_box">
                 
                 <div id="Timer">
-                    <h2>Timer</h2>                    
+                    <h2>Timer</h2>
+                    <div>Black: <span id="BlackTime"> </span></div>
+                    <div>White: <span id="WhiteTime"> </span></div>               
                 </div><hr>
                
                 <div>
