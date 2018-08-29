@@ -681,12 +681,12 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
   if(jsindex===1)      //BISHOP
   {
-    if(fbx>=prbx && fby>=prby)          //right bottom jao
-    {
       if(fbx===prbx && fby===prby)      //no wall found recurse back
       {
             return(1);
       }  
+    if(fbx>prbx && fby>prby)          //move to right bottom
+    {
 
       var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
@@ -753,15 +753,8 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
     }
 
     
-    else if(fbx>=prbx && fby<=prby)      //move to right top
+    else if(fbx>prbx && fby<prby)      //move to right top
     {
-
-       if(fbx==prbx && fby==prby)      //no wall found recurse back
-      {
-        alert("no wall found");
-            return(1);
-      }  
-
       var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
       var imgData3 =  ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
@@ -826,12 +819,8 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     }
 
-    else if(prbx>=fbx && prby>=fby)      //move to left top
+    else if(prbx>fbx && prby>fby)      //move to left top
     {
-
-       if(fbx==prbx && fby==prby)      //no wall found recurse back
-            return(1);
-
       var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
       var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
@@ -896,12 +885,8 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     }
 
-    else if(fbx>=prbx && fby<=prby)      //move to left bottom
+    else if(fbx<prbx && fby>prby)      //move to left bottom
     {
-
-       if(fbx==prbx && fby==prby)      //no wall found recurse back
-            return(1);
-
       var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
       var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
@@ -969,7 +954,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
   }
 
-  if(jsindex==2)      //King
+  if(jsindex===2)      //KING
   {
     if(prbx>fbx && prby == fby)
     {
@@ -995,17 +980,18 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
     if(len>0)
     {
       var data = imgData.data;
-       for (var i = 0; i < data.length; i += 4) 
-          { // look at all pixels
+      for (var i = 0; i < data.length; i += 4) 
+      { // look at all pixels
                  
-                  if (data[i] == 255 && data[i + 1] == 0 && data[i + 2] == 0) 
-                  { // red
-                      
-                      alert("wall therefore you can't move there");
-                      return(0);
-                      break;
-                  }
-          }
+            if (data[i] == 255 && data[i + 1] == 0 && data[i + 2] == 0) 
+            { // red
+                
+                alert("wall therefore you can't move there");
+                return(0);
+                break;
+            }
+      }
+      return 1;
 
     }
 
