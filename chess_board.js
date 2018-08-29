@@ -298,8 +298,9 @@ function ifValidMove(prevbx,prevby,bx,by){
 //////////////////////////////////////////////////
 ////////////////////YASH TOPPER///////////////////
 
-var move = 0,
-    clickodd = 0;
+var move = 1,   //0-black's move, 1-white's move
+    clickodd = 0,
+    hadRotPrev = [0,0]; //Had Rotated Previously, 0-false 1-true
 
 var prevbx = null, prevby = null;
 
@@ -326,7 +327,7 @@ function onclickinit(){
       return -1;
   }
 
-  if(move===0)               //White ka move hai
+  if(move===1)               //White ka move hai
   {
 
     if(clickodd === 0 )      //first time click
@@ -405,15 +406,16 @@ function onclickinit(){
 
       drawBoard();
 
-      clickodd = 0;
-      move = 1;         //black ka move aayga
+      hadRotPrev[move] = 0;
 
+      clickodd = 0;
+      move = 0;         //black ka move aayga
 
       }
     }
   }
 
-  else if (move == 1)         //Its black ka move
+  else if (move == 0)         //Its black ka move
   {
 
     if(clickodd == 0 )      //first time click
@@ -491,8 +493,10 @@ function onclickinit(){
 
         if(checkIfCheck(jsonindex,0)===1) alert("Check MF");
 
+        hadRotPrev[move] = 0;
+
         clickodd = 0;
-        move = 0;         //white ka move  aayga
+        move = 1;         //white ka move  aayga
 
         drawBoard();
 
@@ -592,37 +596,43 @@ function checkIfCheck(jsonindex,isWhite)
 var firstInBoard=[[0,0],[5,0],[0,5],[5,5],[0,10],[5,10]];
 
 function rotate(id) {
-      SEMI_BRD_ORIENT[id]=(SEMI_BRD_ORIENT[id]+1)%4;
-      console.log(SEMI_BRD_ORIENT);
+    if(hadRotPrev[move] === 0)
+    if(!( (Math.floor(json.white[2].col/5)===Math.floor(id/2) && Math.floor(json.white[2].row/5)===id%2) || (Math.floor(json.black[2].col/5)===Math.floor(id/2)
+        && Math.floor(json.black[2].row/5)===id%2) )) 
+    {
+        SEMI_BRD_ORIENT[id]=(SEMI_BRD_ORIENT[id]+1)%4;
 
-      for(i=0;i<4;i++)
-      {
-          if(json.white[i].row>=firstInBoard[id][0] && json.white[i].row<firstInBoard[id][0]+5 && json.white[i].col>=firstInBoard[id][1]  && json.white[i].col<firstInBoard[id][1]+5)
-          {
-              var old_row=json.white[i].row%5;
-              // console.log(old_row);
-              json.white[i].row=firstInBoard[id][0] + ((json.white[i].col)%5);
-              json.white[i].col=firstInBoard[id][1] + ( 4 - old_row);
+        for(i=0;i<4;i++)
+        {
+            if(json.white[i].row>=firstInBoard[id][0] && json.white[i].row<firstInBoard[id][0]+5 && json.white[i].col>=firstInBoard[id][1]  && json.white[i].col<firstInBoard[id][1]+5)
+            {
+                var old_row=json.white[i].row%5;
+                json.white[i].row=firstInBoard[id][0] + ((json.white[i].col)%5);
+                json.white[i].col=firstInBoard[id][1] + ( 4 - old_row);
 
-          }
-          console.log(json.white[i].row,json.white[i].col);
-      }
-      for(i=0;i<4;i++)
-      {
+            }
+            //console.log(json.white[i].row,json.white[i].col);
+        }
+        for(i=0;i<4;i++)
+        {
 
-          if(json.black[i].row>=firstInBoard[id][0] && json.black[i].row<firstInBoard[id][0]+5 && json.black[i].col>=firstInBoard[id][1]  && json.black[i].col<firstInBoard[id][1]+5)
-          {
-              var old_row=json.black[i].row%5;
-              json.black[i].row=firstInBoard[id][0] + ((json.black[i].col)%5);
-              json.black[i].col=firstInBoard[id][1] + ( 4 - old_row );
-          }
-          console.log(json.black[i].row,json.black[i].col);
-      }
+            if(json.black[i].row>=firstInBoard[id][0] && json.black[i].row<firstInBoard[id][0]+5 && json.black[i].col>=firstInBoard[id][1]  && json.black[i].col<firstInBoard[id][1]+5)
+            {
+                var old_row=json.black[i].row%5;
+                json.black[i].row=firstInBoard[id][0] + ((json.black[i].col)%5);
+                json.black[i].col=firstInBoard[id][1] + ( 4 - old_row );
+            }
+            //console.log(json.black[i].row,json.black[i].col);
+        }
 
-      move = (move+1)%2;
-      clickodd = 0;
+        hadRotPrev[move] = 1;      
+        
+        move = (move+1)%2;
+        clickodd = 0;
 
-      drawBoard();
+        drawBoard();
+    }
+
 }
 
 
@@ -1267,8 +1277,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
       else return 1; //can move
 
     }
-
-
 
   }
 
