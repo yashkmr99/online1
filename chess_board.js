@@ -1328,7 +1328,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
   
 }
 
-///////////////////////   eND  GAME BY SUHAS THE TOPPER   ///////////////////////////
+///////////////////////   END  GAME BY SUHAS THE TOPPER   ///////////////////////////
 
 function endgame(piece){
   alert(" The Game Ends ");
