@@ -1284,17 +1284,52 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
     if(Math.abs(fbx-prbx) === 1)
     { 
       var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)/2*BLOCK_SIZE);
-      var imgData2 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby+(fby-prby)/2)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)/2*BLOCK_SIZE);
-      var imgData3 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby+(fby-prby))*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)*BLOCK_SIZE, 1);
+      var imgData2 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby+(fby-prby)/2)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)/2*BLOCK_SIZE);
+      var imgData3 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby+(fby-prby))*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)*BLOCK_SIZE, 1);
     }
     else if(Math.abs(fbx-prbx) === 2)
     {
-      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)/2*BLOCK_SIZE, 1);
+      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)/2*BLOCK_SIZE, 1);
       var imgData2 = ctx.getImageData(origin.x + (prbx+(fbx-prbx)/2)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)/2*BLOCK_SIZE, 1);
       var imgData3 = ctx.getImageData(origin.x + (prbx+(fbx-prbx))*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)*BLOCK_SIZE);
     }  
-      return 1;
+    var data1 = imgData1.data;
+    var data2 = imgData2.data;
+    var data3 = imgData3.data;
 
+    var noOfWalls =0;    
+    for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                noOfWalls++;
+                break;
+              }
+      }
+    for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                noOfWalls++;
+                break;
+              }
+      }
+    for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                noOfWalls++;
+                break;
+              }
+      }
+
+    if(noOfWalls <= 1)
+      return 1;
+    else 
+      return 0;
   }
   
 }
