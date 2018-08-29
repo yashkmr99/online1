@@ -24,28 +24,24 @@ var json =
             "piece": "ROOK",
             "row": 0,
             "col": 0,
-            "in_play": true
         },
         {
             "imgPos": 2,
             "piece": "BISHOP",
-            "row": 0,
-            "col": 2,
-            "in_play": true
+            "row": 2,
+            "col": 0,
         },
         {
             "imgPos": 3,
             "piece": "KING",
-            "row": 0,
-            "col": 3,
-            "in_play": true
+            "row": 5,
+            "col": 0,
         },
         {
             "imgPos": 1,
             "piece": "KNIGHT",
-            "row": 1,
+            "row": 8,
             "col": 0,
-            "in_play": true
         }
     ],
     "black":
@@ -53,30 +49,26 @@ var json =
         {
             "imgPos": 0,
             "piece": "ROOK",
-            "row": 5,
-            "col": 0,
-            "in_play": true
+            "row": 3,
+            "col": 14,
         },
         {
             "imgPos": 2,
             "piece": "BISHOP",
             "row": 5,
-            "col": 2,
-            "in_play": true
+            "col": 14,
         },
         {
             "imgPos": 3,
             "piece": "KING",
-            "row": 5,
-            "col": 3,
-            "in_play": true
+            "row": 7,
+            "col": 14,
         },
         {
             "imgPos": 1,
             "piece": "KNIGHT",
             "row": 5,
             "col": 11,
-            "in_play": true
         }
     ]
 };
@@ -394,10 +386,6 @@ function onclickinit(){
             
             calcScore(i,1);
 
-            if(i == 2){
-              endgame(1);
-            }
-
             break;
           }
       }
@@ -486,9 +474,6 @@ function onclickinit(){
             json.white[i].col = -1;     //That piece captured
 
             calcScore(i,0);
-            if(i == 2){
-              endgame(0);
-            }
             break;
           }
         }
@@ -1341,15 +1326,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
       return 0;
   }
   
-}
-
-
-////End Game By Suhas
-function endgame(piece){
-  alert(" The Game Ends ");
-  var winner = piece ? "White" : "Black" ;
-  var myWindow = window.open("end.html", "_self");
-  myWindow.document.write(" The Winner is " + winner);
 }
 
 /////////////////////////////////////////
