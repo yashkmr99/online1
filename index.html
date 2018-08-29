@@ -8,22 +8,55 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
 
         <script src='chess_board.js'> </script>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body onload='drawBoard(); onclickinit();'>
         <div>
+<<<<<<< HEAD
             <div id="score_board" > WHITE:<p id="white_score">0</p>
             <br />                                            BLACK:<p id="black_score">0</p>
             </div> 
+=======
+>>>>>>> 3a1171266f4289fd40c82601a1f39d46da1ce248
         	<!-- <img id="semiBoard" src="board.jpg" width="300px" height="300px"> -->
-            <canvas id="chess" width="2000" height="2000" style="border:1px solid #d3d3d3;">       </canvas>
+            <div class="heading">   
+                <h1>The Name and Tag Line Comes Here</h1>
+            </div>
+            <hr>
+            <div class="buttons_menu">
+                <button id="0" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #00ffff;">Rotate A</button>
+                <button id="1" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #ffff00">Rotate B</button>
+                <button id="2" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #7fff00;">Rotate C</button>
+                <button id="3" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #7fff00;">Rotate D</button>
+                <button id="4" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #ffff00;">Rotate E</button>
+                <button id="5" class="rotateButton"  onclick="rotate(this.id);" style="background-color: #00ffff;">Rotate F</button>
+            </div>
+            <canvas id="chess" width="1050" height="675">  </canvas>
+            
+            <div id="log_box">
+                
+                <div id="Timer">
+                    <h2>Timer</h2>                    
+                </div><hr>
+               
+                <div>
+                    <h2>Scores</h2><hr>
+                    <div class="Score">WHITE:<span id="white_score">0</span></div>
+                    <div class="Score">BLACK:<span id="black_score">0</span></div>
+                </div><hr>
 
-            <button id="0" class="rotateButton" style="position: absolute; top:200px; left:100px;" onclick="rotate(this.id);">Rotate A</button>
-            <button id="1" class="rotateButton" style="position: absolute; top:300px; left:100px;" onclick="rotate(this.id);">Rotate B</button>
-            <button id="2" class="rotateButton" style="position: absolute; top:400px; left:100px;" onclick="rotate(this.id);">Rotate C</button>
-            <button id="3" class="rotateButton" style="position: absolute; top:500px; left:100px;" onclick="rotate(this.id);">Rotate D</button>
-            <button id="4" class="rotateButton" style="position: absolute; top:600px; left:100px;" onclick="rotate(this.id);">Rotate E</button>
-            <button id="5" class="rotateButton" style="position: absolute; top:700px; left:100px;" onclick="rotate(this.id);">Rotate F</button>
+                <div id="Messages">
+                    <h2>Log and Warnings!</h2> <hr>
+                </div>
+
+            </div>
 
         </div>
     </body>
 </html>
+
+<!--  What all did i change : 
+    *The order of divs in html and added css 
+    *Changed the origin values in js
+    *Modified the score divs
+     -->

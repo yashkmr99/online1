@@ -9,8 +9,8 @@ var SEMI_BRD_DIM = 300,
 
 var origin =
 {
-    "x": 1*SEMI_BRD_DIM,
-    "y": SEMI_BRD_DIM/3
+    "x": SEMI_BRD_DIM/4,
+    "y": SEMI_BRD_DIM/8
 };
 
 ///////////////////////////////  POSITION AND STATE OF PIECES  /////////////////////////////////
