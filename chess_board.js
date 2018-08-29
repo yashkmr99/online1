@@ -144,7 +144,7 @@ function drawSemiBoard(board_no) {
     var canvas = document.getElementById('chess');
     var ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = "#caf2ec";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     var img = new Image();
@@ -1141,10 +1141,10 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
        
 
-      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
-      var imgData2 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
-      var imgData3 = ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
-      var imgData4 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
       
       var data1 = imgData1.data;
       var data2 = imgData2.data;
@@ -1279,8 +1279,9 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
   }
 
 
-  if(jsindex==3)      //KNIGHT
+  if(jsindex==3)      //Knight
   {
+<<<<<<< HEAD
     if(Math.abs(fbx-prbx) === 1)
     { 
       var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)/2*BLOCK_SIZE);
@@ -1325,6 +1326,10 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
                 break;
               }
       }
+=======
+
+      return 1;
+>>>>>>> b601b72ce19ba0a045d464d0d4c10c912176c568
 
     if(noOfWalls <= 1)
       return 1;
