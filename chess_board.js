@@ -619,13 +619,14 @@ function rotate(id) {
           console.log(json.black[i].row,json.black[i].col);
       }
 
+      move = (move+1)%2;
+      clickodd = 0;
+
       drawBoard();
 }
 
 
-///////////////////////////wall check function/////////////////////////
-
-
+/////////////////////////  WALL CHECK FUNCTION  /////////////////////////
 
 function WallCheck(prby,prbx,fby,fbx,jsindex)
 {
@@ -748,7 +749,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
         return(0);
       }
       return(WallCheck(prby+1,prbx+1,fby,fbx,jsindex));
-
               
     }
 
@@ -821,10 +821,10 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     else if(prbx>fbx && prby>fby)      //move to left top
     {
-      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
       var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
       var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
-      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       
       var data1 = imgData1.data;
       var data2 = imgData2.data;
@@ -865,7 +865,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
               }
       }
 
-      for (var i = 0; i < data1.length; i += 4) 
+      for (var i = 0; i < data4.length; i += 4) 
       { // look at all pixels
               
               if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
@@ -875,13 +875,15 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
               }
       }
 
-      if(p1==1 && p2 ==1)
+      if(p1 === 1 && p2 === 1)
       {
         alert("wall therefore can't move");
         return(0);
       }
-
-      return(WallCheck(prby,prbx,fby+1,fbx+1,jsindex));
+      console.log("WallCheck: "+" "+prby+" "+prbx+" "+fby+" "+fbx);
+      x=WallCheck(prby-1,prbx-1,fby,fbx,jsindex);
+      console.log(x);
+      return(x);
 
     }
 
