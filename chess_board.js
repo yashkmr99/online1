@@ -633,7 +633,7 @@ function rotate(id) {
 function WallCheck(prby,prbx,fby,fbx,jsindex)
 {
 
-    alert("prby prbx fby fbx jsindex"+ prby + prbx+fby+fbx+jsindex);
+    
      var canvas = document.getElementById('chess');
     var ctx = canvas.getContext('2d');
 
@@ -678,7 +678,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
               }
       }
     }
-    alert("i="+i);
+    
     return(1);
   }
 
