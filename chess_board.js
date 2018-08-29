@@ -1352,13 +1352,15 @@ function BlackTimer() {
       WhiteTimer();
       clearInterval(interval);
     }
-    document.getElementById('BlackTime').innerHTML = --seconds_left_Black;
+    document.getElementById('BlackTime').innerHTML = seconds_left_Black ;
     if (seconds_left_Black <= 0)
     {
        document.getElementById('BlackTime').innerHTML = " 0 ";
        clearInterval(interval);
     }
-}, 1000*2);
+    seconds_left_Black -= 1/2;
+
+}, 1000);
 }
 
 function WhiteTimer() {  
@@ -1368,13 +1370,14 @@ function WhiteTimer() {
       BlackTimer();
       clearInterval(interval);
     }
-    document.getElementById('WhiteTime').innerHTML = --seconds_left_White;
+    document.getElementById('WhiteTime').innerHTML = seconds_left_White ;
     if (seconds_left_White <= 0 )
     {
        document.getElementById('WhiteTime').innerHTML = " 0 ";
        clearInterval(interval);
     }
-}, 1000*2);
+    seconds_left_White -= 1/2;
+}, 1000);
 } 
 
 /////////////////////////////////////////
