@@ -144,7 +144,7 @@ function drawSemiBoard(board_no) {
     var canvas = document.getElementById('chess');
     var ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = "#caf2ec";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     var img = new Image();

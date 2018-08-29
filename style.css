@@ -12,8 +12,7 @@ p {
 }
 
 .heading{
-	background-color: black;
-	color: white;
+	color: black;
 	padding: 0;
 	margin: 0;
 	line-height: 1;
@@ -25,7 +24,6 @@ html, body{
 	overflow-x: hidden;
 	overflow-y: hidden;
 	margin: 0;
-	background-color: black;
 }
 
 .buttons_menu{
