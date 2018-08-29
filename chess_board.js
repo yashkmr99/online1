@@ -174,10 +174,6 @@ function drawBoard(){
     for (var i = 0; i < 6; i++) {
         drawSemiBoard(i);
     }
-
-    // drawPieces();
-
-    //canvas.addEventListener('click',board_click,false);
 };
 
 /////////////////   CHESS MOVES VALIDITY   ////////////////////
@@ -325,10 +321,10 @@ function onclickinit(){
   by = Math.floor((y- origin.y)/BLOCK_SIZE);     //block ka row nmbr
 
   // Checking if selection is outside the bard
-    if(bx<0 || bx>14 || by<0 || by>9)
-    {
-        return -1;
-    }
+  if(bx<0 || bx>14 || by<0 || by>9)
+  {
+      return -1;
+  }
 
   if(move===0)               //White ka move hai
   {
@@ -369,51 +365,51 @@ function onclickinit(){
         return -1;
       }
 
-      //now check if wall
+      //now check if his own piece
 
-    //  var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
+      for(i=0;i<4;i++)
+      {
+         if(json.white[i].row == by && json.white[i].col == bx)
+         {
+           alert("can't move there own piece");
+           return 0;
+         }
+      }
+
+        //now check if wall
+
+      var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
+
+      if(canMove == 1)
+      {
+            //check if enemy piece
+
+      for(i=0;i<4;i++)
+      {
+          if(json.black[i].row == by && json.black[i].col == bx)
+          {
+            json.black[i].row = -1;
+            json.black[i].col = -1;     //That piece captured
+            
+            calcScore(i,1);
+
+            break;
+          }
+      }
+
+        //finally a valid move no wall and no other piece there
+      json.white[jsonindex].row = by;
+      json.white[jsonindex].col = bx;
+
+      if(checkIfCheck(jsonindex,1) ===  1) alert("Check MF");
+
+      drawBoard();
+
+      clickodd = 0;
+      move = 1;         //black ka move aayga
 
 
-
-
-
-
-    //now check if his own piece
-
-    for(i=0;i<4;i++)
-    {
-       if(json.white[i].row == by && json.white[i].col == bx)
-       {
-         alert("can't move there");
-         return 0;
-       }
-    }
-
-    //check if enemy piece
-
-    for(i=0;i<4;i++)
-    {
-        if(json.black[i].row == by && json.black[i].col == bx)
-        {
-          json.black[i].row = -1;
-          json.black[i].col = -1;     //That piece captured
-          
-          calcScore(i,1);
-
-          break;
-        }
-    }
-
-      //finally a valid move no wall and no other piece there
-    json.white[jsonindex].row = by;
-    json.white[jsonindex].col = bx;
-
-    //checkIfCheck(jsonindex,1);
-
-    drawBoard();
-
-    clickodd = 0;
-    move = 1;         //black ka move aayga
+      }
     }
   }
 
@@ -455,53 +451,56 @@ function onclickinit(){
         //invalid move
         return -1;
       }
-
-      //now check if wall
-
-      //var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
-
-
-    //now check if his own piece
-
-    for(i=0;i<4;i++)
-    {
-       if(json.black[i].row == by && json.black[i].col == bx)
-       {
-         alert("can't move there");
-         return 0;
-       }
-    }
-
-      //check if enemy piece
+      
+      //now check if his own piece
 
       for(i=0;i<4;i++)
       {
-        if(json.white[i].row == by && json.white[i].col == bx)
-        {
-          json.white[i].row = -1;
-          json.white[i].col = -1;     //That piece captured
-
-          calcScore(i,0);
-          break;
-        }
+         if(json.black[i].row == by && json.black[i].col == bx)
+         {
+           alert("can't move there");
+           return 0;
+         }
       }
 
-      //finally a valid move no wall and no other piece there
+      
+      //now check if wall
+      var canMove = WallCheck(prevby,prevbx,by,bx,jsonindex);
 
-      json.black[jsonindex].row = by;
-      json.black[jsonindex].col = bx;
 
-      //if(checkIfCheck(jsonindex,0)===1) 
+      if(canMove)
+      {
+        //check if enemy piece
 
-      clickodd = 0;
-      move = 0;         //white ka move  aayga
+        for(i=0;i<4;i++)
+        {
+          if(json.white[i].row == by && json.white[i].col == bx)
+          {
+            json.white[i].row = -1;
+            json.white[i].col = -1;     //That piece captured
 
-      drawBoard();
-          }}
+            calcScore(i,0);
+            break;
+          }
+        }
 
+        //finally a valid move no wall and no other piece there
+
+        json.black[jsonindex].row = by;
+        json.black[jsonindex].col = bx;
+
+        if(checkIfCheck(jsonindex,0)===1) alert("Check MF");
+
+        clickodd = 0;
+        move = 0;         //white ka move  aayga
+
+        drawBoard();
+
+      }  
+    }
+  }
 
 }  );
-
 
 }
 
@@ -550,38 +549,40 @@ function calcScore(i,isWhite){
 
 function checkIfCheck(jsonindex,isWhite)
 {
-  if(isWhite)
+  if(isWhite)  //White moved
   {
     //check if valid move first
-    if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === 0)
-    {
-      //now check if same piece is se
-      //deselect
-      return 0;
-    }else if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === -1)
+    // if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === 0)
+    // {
+    //   //now check if same piece is se
+    //   //deselect
+    //   return 0;
+    if(ifValidMove(json.white[jsonindex].col,json.white[jsonindex].row,json.black[2].col,json.black[2].row) === -1)
     {
       //invalid move
       return -1;
     }
 
     //Wall
+    if(WallCheck(json.white[jsonindex].row,json.white[jsonindex].col,json.black[2].row,json.black[2].col,jsonindex) === 1)
     return 1;
   }
-  else
+  else  //Black moved
   {
     //check if valid move first
-    if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === 0)
-    {
-      //now check if same piece is se
-      //deselect
-      return 0;
-    }else if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === -1)
+    // if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === 0)
+    // {
+    //   //now check if same piece is se
+    //   //deselect
+    //   return 0;
+    if(ifValidMove(json.black[jsonindex].col,json.black[jsonindex].row,json.white[2].col,json.white[2].row) === -1)
     {
       //invalid move
       return -1;
     }
 
     //Wall
+    if(WallCheck(json.black[jsonindex].row,json.black[jsonindex].col,json.white[2].row,json.white[2].col,jsonindex) === 1)
     return 1;
   }
 }
@@ -619,6 +620,684 @@ function rotate(id) {
       }
 
       drawBoard();
+}
+
+
+///////////////////////////wall check function/////////////////////////
+
+
+
+function WallCheck(prby,prbx,fby,fbx,jsindex)
+{
+
+    alert("prby prbx fby fbx jsindex"+ prby + prbx+fby+fbx+jsindex);
+     var canvas = document.getElementById('chess');
+    var ctx = canvas.getContext('2d');
+
+  var len;
+  if(jsindex===0)  //ROOK
+  {
+
+    if(prbx>fbx)
+    {
+      var imgData = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2,origin.y +  (fby)*BLOCK_SIZE+BLOCK_SIZE/2, (prbx-fbx)*BLOCK_SIZE, 1);
+      len = prbx-fbx;
+    }
+    else if(prby>fby)
+    {
+      var imgData = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2,origin.y+ (fby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (prby-fby)*BLOCK_SIZE);
+      len = prby-fby;
+    }
+    else if(fbx>prbx)
+    {
+      var imgData = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)*BLOCK_SIZE, 1);
+      len = fbx-prbx;
+    }
+    else if(fby>prby)
+    {
+      var imgData = ctx.getImageData(origin.x +(prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)*BLOCK_SIZE);
+      len = fby-prby;
+    }
+
+    if(len>0)
+    {  
+      var data = imgData.data;
+
+      for (var i = 0; i < data.length; i += 4) 
+      { // look at all pixels
+              
+              if (data[i] == 255 && data[i + 1] == 0 && data[i + 2] == 0) 
+              { // red
+                  
+                  alert("wall therefore you can't move there");
+                  return(0);
+                  break;
+              }
+      }
+    }
+    alert("i="+i);
+    return(1);
+  }
+
+  if(jsindex===1)      //BISHOP
+  {
+    if(fbx>=prbx && fby>=prby)          //right bottom jao
+    {
+      if(fbx===prbx && fby===prby)      //no wall found recurse back
+      {
+            return(1);
+      }  
+
+      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby+1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data4.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1 === 1 && p2 === 1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+      return(WallCheck(prby+1,prbx+1,fby,fbx,jsindex));
+
+              
+    }
+
+    
+    else if(fbx>=prbx && fby<=prby)      //move to right top
+    {
+
+       if(fbx==prbx && fby==prby)      //no wall found recurse back
+      {
+        alert("no wall found");
+            return(1);
+      }  
+
+      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      return(WallCheck(prby-1,prbx+1,fby,fbx,jsindex));
+
+    }
+
+    else if(prbx>=fbx && prby>=fby)      //move to left top
+    {
+
+       if(fbx==prbx && fby==prby)      //no wall found recurse back
+            return(1);
+
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      return(WallCheck(prby,prbx,fby+1,fbx+1,jsindex));
+
+    }
+
+    else if(fbx>=prbx && fby<=prby)      //move to left bottom
+    {
+
+       if(fbx==prbx && fby==prby)      //no wall found recurse back
+            return(1);
+
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      return(WallCheck(prby,prbx,fby-1,fbx+1,jsindex));
+
+    }    
+
+
+  }
+
+  if(jsindex==2)      //King
+  {
+    if(prbx>fbx && prby == fby)
+    {
+      var imgData = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2,origin.y +  (fby)*BLOCK_SIZE+BLOCK_SIZE/2, (prbx-fbx)*BLOCK_SIZE, 1);
+      len = prbx-fbx;
+    }
+    else if(prby>fby && prbx==fbx)
+    {
+      var imgData = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2,origin.y+ (fby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (prby-fby)*BLOCK_SIZE);
+      len = prby-fby;
+    }
+    else if(fbx>prbx && prby==fby)
+    {
+      var imgData = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, (fbx-prbx)*BLOCK_SIZE, 1);
+      len = fbx-prbx;
+    }
+    else if(fby>prby && prbx==fbx)
+    {
+      var imgData = ctx.getImageData(origin.x +(prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)*BLOCK_SIZE);
+      len = fby-prby;
+    }
+
+    if(len>0)
+    {
+      var data = imgData.data;
+       for (var i = 0; i < data.length; i += 4) 
+          { // look at all pixels
+                 
+                  if (data[i] == 255 && data[i + 1] == 0 && data[i + 2] == 0) 
+                  { // red
+                      
+                      alert("wall therefore you can't move there");
+                      return(0);
+                      break;
+                  }
+          }
+
+    }
+
+    if(fbx>prbx && fby>prby)          //right bottom jao
+    {
+      
+
+      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby+1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+      else return(1);     //no wall
+      
+
+              
+    }
+
+    
+    else if(fbx>prbx && fby<prby)      //move to right top
+    {
+
+       
+
+      var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (prbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      else return 1;
+
+    }
+
+    else if(prbx>fbx && prby>fby)      //move to left top
+    {
+
+       
+
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      else return 1;
+
+    }
+
+    else if(fbx>prbx && fby<prby)      //move to left bottom
+    {
+
+       
+
+      var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
+      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      
+      var data1 = imgData1.data;
+      var data2 = imgData2.data;
+      var data3 = imgData3.data;
+      var data4 = imgData4.data;
+
+
+      var p1 = 0; //condition for no wall
+      var p2 = 0; 
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data1[i] == 255 && data1[i + 1] == 0 && data1[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data2.length; i += 4) 
+      { // look at all pixels
+              
+              if (data2[i] == 255 && data2[i + 1] == 0 && data2[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data3.length; i += 4) 
+      { // look at all pixels
+              
+              if (data3[i] == 255 && data3[i + 1] == 0 && data3[i + 2] == 0) 
+              {
+                p1 = 1;
+                break;
+              }
+      }
+
+      for (var i = 0; i < data1.length; i += 4) 
+      { // look at all pixels
+              
+              if (data4[i] == 255 && data4[i + 1] == 0 && data4[i + 2] == 0) 
+              {
+                p2 = 1;
+                break;
+              }
+      }
+
+      if(p1==1 && p2 ==1)
+      {
+        alert("wall therefore can't move");
+        return(0);
+      }
+
+      else return 1; //can move
+
+    }
+
+
+
+  }
+
+
+  if(jsindex==3)      //Knight
+  {
+
+      return 1;
+
+  }
+  
 }
 
 /////////////////////////////////////////
