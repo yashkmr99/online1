@@ -394,6 +394,10 @@ function onclickinit(){
             
             calcScore(i,1);
 
+            if(i == 2){
+              endgame(1);
+            }
+
             break;
           }
       }
@@ -482,6 +486,9 @@ function onclickinit(){
             json.white[i].col = -1;     //That piece captured
 
             calcScore(i,0);
+            if(i == 2){
+              endgame(0);
+            }
             break;
           }
         }
@@ -1334,6 +1341,15 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
       return 0;
   }
   
+}
+
+
+////End Game By Suhas
+function endgame(piece){
+  alert(" The Game Ends ");
+  var winner = piece ? "White" : "Black" ;
+  var myWindow = window.open("end.html", "_self");
+  myWindow.document.write(" The Winner is " + winner);
 }
 
 /////////////////////////////////////////
