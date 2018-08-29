@@ -997,7 +997,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     }
 
-    if(fbx>prbx && fby>prby)          //right bottom jao
+    if(fbx>prbx && fby>prby)          //move to right bottom
     {
       
 
@@ -1138,9 +1138,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     else if(prbx>fbx && prby>fby)      //move to left top
     {
-
-       
-
       var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
       var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
       var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
@@ -1205,15 +1202,12 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
     }
 
-    else if(fbx>prbx && fby<prby)      //move to left bottom
+    else if(prbx>fbx && prby<fby)      //move to left bottom
     {
-
-       
-
       var imgData1 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE, 1);
-      var imgData2 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
-      var imgData3 =  ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
-      var imgData4 =  ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
+      var imgData2 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData3 = ctx.getImageData(origin.x + (fbx+1)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2,1, BLOCK_SIZE);
+      var imgData4 = ctx.getImageData(origin.x + (fbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (fby-1)*BLOCK_SIZE+BLOCK_SIZE/2, BLOCK_SIZE,1);
       
       var data1 = imgData1.data;
       var data2 = imgData2.data;
@@ -1279,7 +1273,7 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
   }
 
 
-  if(jsindex==3)      //Knight
+  if(jsindex==3)      //KNIGHT
   {
     if(Math.abs(fbx-prbx) === 1)
     { 
