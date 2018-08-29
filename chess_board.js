@@ -1281,7 +1281,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
 
   if(jsindex==3)      //Knight
   {
-<<<<<<< HEAD
     if(Math.abs(fbx-prbx) === 1)
     { 
       var imgData1 = ctx.getImageData(origin.x + (prbx)*BLOCK_SIZE+BLOCK_SIZE/2, origin.y + (prby)*BLOCK_SIZE+BLOCK_SIZE/2, 1, (fby-prby)/2*BLOCK_SIZE);
@@ -1326,10 +1325,6 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
                 break;
               }
       }
-=======
-
-      return 1;
->>>>>>> b601b72ce19ba0a045d464d0d4c10c912176c568
 
     if(noOfWalls <= 1)
       return 1;
