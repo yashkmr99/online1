@@ -288,7 +288,7 @@ function ifValidMove(prevbx,prevby,bx,by){
 }
 
 //////////////////////////////////////////////////
-////////////////////YASH TOPPER///////////////////
+//////////////////// YASH TOPPER ///////////////////
 
 var move = 1,   //0-black's move, 1-white's move
     clickodd = 0,
@@ -510,22 +510,22 @@ function calcScore(i,isWhite){
   if(i === 0)
   {
     //ROOK
-    SCORE[isWhite] += 35;
+    SCORE[isWhite] += 135;
   }
   else if(i === 1)
   {
     //BISHOP
-    SCORE[isWhite] += 35;
+    SCORE[isWhite] += 135;
   }
   else if(i === 2)
   {
     //KING
-    SCORE[isWhite] += 70;  
+    SCORE[isWhite] += 170;  
   }
   else if(i === 3)
   {
     //KNIGHT
-    SCORE[isWhite] += 40;  
+    SCORE[isWhite] += 140;  
   }
   if(isWhite)
   {
@@ -1327,6 +1327,55 @@ function WallCheck(prby,prbx,fby,fbx,jsindex)
   }
   
 }
+
+///////////////////////   eND  GAME BY SUHAS THE TOPPER   ///////////////////////////
+
+function endgame(piece){
+  alert(" The Game Ends ");
+  var winner = piece ? "White" : "Black" ;
+  var myWindow = window.open("end.html", "_self");
+  myWindow.document.write("<h2> The Winner is " + winner + "</h2>" + "<p>Scores are <ul><li>WHITE : " + SCORE[1] + "</li><li>BLACK : " + SCORE[0] + "</li></ul> ");
+
+}
+
+//////////////  TIMER  ////////////////////////
+
+var TIME = 60 ;
+var seconds_left_Black = TIME;
+var seconds_left_White = TIME;
+
+function BlackTimer() {
+  
+  console.log("black");
+  var interval = setInterval(function() {
+    if (move == 1) {
+      WhiteTimer();
+      clearInterval(interval);
+    }
+    document.getElementById('BlackTime').innerHTML = --seconds_left_Black;
+    if (seconds_left_Black <= 0)
+    {
+       document.getElementById('BlackTime').innerHTML = " 0 ";
+       clearInterval(interval);
+    }
+}, 1000*2);
+}
+
+function WhiteTimer() {  
+  console.log("white");
+  var interval = setInterval(function() {
+    if (move == 0) {
+      BlackTimer();
+      clearInterval(interval);
+    }
+    document.getElementById('WhiteTime').innerHTML = --seconds_left_White;
+    if (seconds_left_White <= 0 )
+    {
+       document.getElementById('WhiteTime').innerHTML = " 0 ";
+       clearInterval(interval);
+    }
+}, 1000*2);
+} 
 
 /////////////////////////////////////////
 ///////////SUHAS THE TOPPER//////////////
